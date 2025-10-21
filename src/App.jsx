@@ -1,10 +1,18 @@
-import './App.css'
+import './App.css';
+import Heading from './Component/Heading';
+import Navbar from './Component/Navbar';
+
 
 function App() {
 
   return (
     <>
-      <h1>Helloooos</h1>
+    <header className='w-11/12 mx-auto py-3'>
+      <Navbar></Navbar>
+    </header>
+    <section>
+      <Heading>Kitchen Room</Heading>
+    </section>
     </>
   )
 }
