@@ -3,24 +3,27 @@ import States from './States';
 import OrderCard from './Cards/OrderCards';
 import CookingCard from './Cards/CookingCards';
 import ServeCard from './Cards/ServeCard';
+import { toast } from 'react-toastify';
 
 const OrderContainer = ({ordersPromise}) => {
 
-    const orders = use(ordersPromise);
-
+    const data = use(ordersPromise);
     // console.log(orders);
+    const [orders, setOrders] = useState(data);
+
 
     const [cookingItems, setCookingItems] = useState([])
     const [readyItems, setReadyItems] = useState([])
 
     const handleOrder = (order) => {
-        console.log(order);
+        // console.log(order);
+        // toast.success("Order Placed Successfully")
 
         // at first, we need to check if the order is already in the cookingItems array
         const isExist = cookingItems.find((item) => item.id === order.id);
 
         if(isExist) {
-            alert("Already Cooking!!");
+            toast.error("Order already on processing...!");
             return;
         }
 
@@ -35,14 +38,18 @@ const OrderContainer = ({ordersPromise}) => {
     // console.log(cookingItems);
 
     const handleCooking = (order) => {
+        order.cookedAt = new Date().toLocaleTimeString();
         //1. put orders into readyItems array
         const newReadyItems = [...readyItems, order];
         setReadyItems(newReadyItems);
 
         //2. remove the order from cookingItems array
         const remaining = cookingItems.filter((item) => item.id !== order.id);
-
         setCookingItems(remaining);
+
+        //3. remove the order from orders array
+        const remainingOrders = orders.filter((item) => item.id !== order.id);
+        setOrders(remainingOrders);
 
     }
     
@@ -72,16 +79,19 @@ const OrderContainer = ({ordersPromise}) => {
                 <div className='shadow p-10 space-y-5'>
                     {cookingItems.map(order => 
                     <CookingCard 
-                    handleCooking={handleCooking} 
-                    key={order.id} 
-                    order={order} >
+                        handleCooking={handleCooking} 
+                        key={order.id} 
+                        order={order} >
 
                     </CookingCard>)}
                 </div>
                 <h2 className='text-4xl font-bold'>Order Ready </h2>
                 <div className='shadow p-10 space-y-5'>
                     {
-                        readyItems.map((order) => <ServeCard key={order.id} order={order}></ServeCard> )
+                        readyItems.map((order) => 
+                        <ServeCard 
+                            key={order.id} order={order}>
+                        </ServeCard> )
                     }
                 </div>
             </div>
