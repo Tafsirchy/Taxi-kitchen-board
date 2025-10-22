@@ -32,7 +32,7 @@ const OrderCard = ({ order,handleOrder }) => {
       </div>
 
       {/* Table Number Badge */}
-      <div className="absolute right-2 top-2 w-10 h-10 flex justify-center items-center bg-[#fcb700] opacity-70 rounded-full opacity-30 text-white">
+      <div className="absolute right-2 top-2 w-10 h-10 flex justify-center items-center bg-[#fcb700] opacity-70 rounded-full text-white">
         {order.table_no}
       </div>
     </div>
